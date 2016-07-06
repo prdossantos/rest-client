@@ -1,0 +1,28 @@
+{
+  "name": "rest-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "rest-client.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prdossantos/rest-client.git"
+  },
+  "author": "prdossantos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/prdossantos/rest-client/issues"
+  },
+  "homepage": "https://github.com/prdossantos/rest-client#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jslint": "^1.0.1",
+    "gulp-jsmin": "^0.1.5",
+    "gulp-rename": "^1.2.2"
+  }
+}
