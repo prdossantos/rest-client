@@ -27,7 +27,7 @@ var RC;
 			config.header = {'Authorization':'Bearer '+localStorage.getItem(config.auth.local_storage)}
 		}
 
-		function session(cleanAll=false)
+		function session(cleanAll)
 		{
 			if(cleanAll)
 				localStorage.removeItem(config.auth.local_storage)
@@ -56,7 +56,7 @@ var RC;
 							
 							res.onload = function (res) {
 								try {
-									let obj = JSON.parse(res.target.responseText)
+									var obj = JSON.parse(res.target.responseText)
 									if( obj && obj.data) {
 										localStorage.setItem(config.auth.local_storage,obj.data)
 										config.header = {'Authorization':'Bearer '+obj.data}
@@ -203,7 +203,7 @@ var RC;
 			}
 		}
 
-		function _delete(path, arg, callback)
+		function _devare(path, arg, callback)
 		{
 			if(typeof arg == 'function') {
 				callback = arg
@@ -214,7 +214,7 @@ var RC;
 				eventListener(el, arg2, function(event){
 					if( event.type == arg2) {
 						var res = xhr({
-							method: 'delete',
+							method: 'devare',
 							url: config.host + path,
 							data: normalizeXhrData(arg),
 							callback: callback,
@@ -224,7 +224,7 @@ var RC;
 				})
 			} else {
 				var res = xhr({
-					method: 'delete',
+					method: 'devare',
 					url: config.host + path,
 					data: normalizeXhrData(arg),
 					callback: callback,
@@ -265,7 +265,7 @@ var RC;
 			if ( typeof obj == 'object' ) {
 				Object.keys(obj).forEach(function(index){
 					if( typeof obj[index] == 'string' ) {
-					 	let el = document.querySelector(obj[index])
+					 	var el = document.querySelector(obj[index])
 					 	if(el) {
 					 		v.push(index+'='+el.value)
 					 	} else {
@@ -284,27 +284,27 @@ var RC;
 
 		function normalizeXhrData(data,fields)
 		{
-			let el = document.querySelector(data), v = []
+			var el = document.querySelector(data), v = []
 			// console.log(el)
 			if( typeof data == 'object' ) {
 				data = objToString(data);
 			} else if(typeof data == 'string' && data) {
 				if(el && fields) {
 					Object.keys(fields).forEach(function(index){
-						let tag = fields[index]
+						var tag = fields[index]
 						if( fields[index].indexOf('.') > -1 || fields[index].indexOf('#') > -1 || fields[index].indexOf('[') > -1 ) {
 							tag = tag
 						} else {
 							tag = 'input[name='+fields[index]+']'
 						}
-						let field = el.querySelector(tag)
+						var field = el.querySelector(tag)
 						if(field)
 							v.push(index+'='+field.value)
 					})
 
 					data = v.join('&')
 				} else if( el ) {
-					let form = el;
+					var form = el;
 					data = formSerialize(form)
 				}	
 			}
@@ -314,7 +314,7 @@ var RC;
 
 		function formSerialize(form)
 		{
-			let v=[],i=0,accepted = ['input','select','textarea'];
+			var v=[],i=0,accepted = ['input','select','textarea'];
 
 			if(typeof form == 'string') form = document.querySelector(form)
 
@@ -323,13 +323,13 @@ var RC;
 			if(elements) {
 				elements.forEach(function(el){
 					if( el.value ) {
-						let name = el.name || 'field'+ ++i
-						let value = el.value
+						var name = el.name || 'field'+ ++i
+						var value = el.value
 						if( el.localName == 'input' && (el.type == 'radio' || el.type == 'checkbox') && el.checked ){
 							v.push(name+'='+value)
 						}
 						if( el.localName == 'select'){
-							let options = el.querySelectorAll('option');
+							var options = el.querySelectorAll('option');
 							options.forEach(function(opt){
 								if(opt.selected) {
 									if(el.hasAttribute('multiple') && name.indexOf('[') == -1) {
@@ -356,19 +356,19 @@ var RC;
 
 		function xhr(options)
 		{
- 			let opt = options;
+ 			var opt = options;
 				opt.method = options.method || 'post'
 				opt.url = options.url || ''
 				opt.data = options.data || ''
 				opt.callback = options.callback || false
 				opt.header = options.header || false
 
-			let data = opt.data
+			var data = opt.data
 
 			if( opt.method.toLowerCase() == 'get' )
 				opt.url = opt.url + '?' + data
 
-			let xhr = new XMLHttpRequest();
+			var xhr = new XMLHttpRequest();
 				xhr.open(opt.method, opt.url, true)
 				if(opt.method.toLowerCase() != 'get')
 					xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -395,7 +395,7 @@ var RC;
 			post: _post,
 			put: _put,
 			patch: _patch,
-			delete: _delete,
+			devare: _devare,
 			clearSess: session
 		}
 	}
