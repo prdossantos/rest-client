@@ -203,7 +203,7 @@ var RC;
 			}
 		}
 
-		function _devare(path, arg, callback)
+		function _delete(path, arg, callback)
 		{
 			if(typeof arg == 'function') {
 				callback = arg
@@ -214,7 +214,7 @@ var RC;
 				eventListener(el, arg2, function(event){
 					if( event.type == arg2) {
 						var res = xhr({
-							method: 'devare',
+							method: 'delete',
 							url: config.host + path,
 							data: normalizeXhrData(arg),
 							callback: callback,
@@ -224,7 +224,7 @@ var RC;
 				})
 			} else {
 				var res = xhr({
-					method: 'devare',
+					method: 'delete',
 					url: config.host + path,
 					data: normalizeXhrData(arg),
 					callback: callback,
@@ -395,7 +395,7 @@ var RC;
 			post: _post,
 			put: _put,
 			patch: _patch,
-			devare: _devare,
+			delete: _delete,
 			clearSess: session
 		}
 	}
