@@ -12,6 +12,19 @@ Cliente JavaScript para API RESTful
   gulp
 ```
 ## Exemplos
+######Configuração
+```javascript
+  RC({
+      host: '/testes/jwt/examples/api',   // definindo um host 
+      // configurações de autênticação são opcionais, sendo possível seta-las na própria chamada.
+      auth: {
+        fields: {               
+          username: 'input[name=username]',   //definindo um campo de usuário para autênticação
+          password: '#teste'       // definindo um campo de senha para autênticação 
+        }
+      }
+  });
+```
 ######Método GET
 ```javascript
   //Quando carregar página
