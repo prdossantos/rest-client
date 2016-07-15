@@ -2,7 +2,7 @@ var RC;
 (function(window,document){
 
 	var config = {
-		host: 'api.altoqi.com.br',
+		host: 'api.domain.com',
 		auth: {
 			fields:{
 				username: 'username',
@@ -17,8 +17,8 @@ var RC;
 		
 		var el;
 
-		if(arg1 == 'config' && typeof arg2 == 'object') {
- 			config = mergeUnique(arg2,config)
+		if(typeof arg1 == 'object') {
+ 			config = mergeUnique(arg1,config)
 		} else if( arg1 ) {
 			el = document.querySelector(arg1);
 		}
