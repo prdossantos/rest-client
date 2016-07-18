@@ -237,9 +237,11 @@ var RC;
 
 		function eventListener(element, event, callback)
 		{
-			element.addEventListener(event, function(e){
-				callback(e)
-			})
+			if(event && element) {
+				element.addEventListener(event, function(e){
+					callback(e)
+				})	
+			}
 		}
 
 		function mergeUnique(newObj,oldObj)
