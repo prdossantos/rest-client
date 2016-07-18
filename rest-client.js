@@ -19,10 +19,24 @@ var RC;
 
 		function session(cleanAll)
 		{
-			if(cleanAll && typeof cleanAll == 'boolean')
-				localStorage.removeItem('rc_config')
-			else if(cleanAll && typeof cleanAll == 'string')
-				localStorage.removeItem(cleanAll)
+			if(arg1 && arg2) {
+				eventListener(el,arg2, function(event){
+					if(event.type == arg2) {
+						if(cleanAll && typeof cleanAll == 'boolean')
+							localStorage.removeItem('rc_config')
+						else if(cleanAll && typeof cleanAll == 'string')
+							localStorage.removeItem(cleanAll)
+					}
+				})
+			} else {
+				if(cleanAll && typeof cleanAll == 'boolean') {
+					localStorage.removeItem('rc_config')
+					config = {}
+				} else if(cleanAll && typeof cleanAll == 'string') {
+					localStorage.removeItem(cleanAll)	
+				}
+			}
+			
 		}
 
 		function _getConfig(key)

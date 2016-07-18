@@ -75,6 +75,9 @@
                                     <a class="mdl-button" id="delete" href="javascript:;">
                                         Delete
                                     </a>
+                                    <a class="mdl-button" id="clear" href="javascript:;">
+                                        Clear
+                                    </a>
                                 </div>
                             </div>
                             
@@ -90,7 +93,7 @@
             })
 
             //Limpa as sessioes abertas
-            // RC().clearSess(true)
+            RC('#clear','click').clearSess(true)
 
             /**
              * Autenticação
