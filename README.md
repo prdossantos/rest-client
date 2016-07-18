@@ -14,15 +14,18 @@ Cliente JavaScript para API RESTful
 ## Exemplos
 ######Configuração
 ```javascript
-  RC({
+  RC().setConfig({
       host: '/testes/jwt/examples/api',   // definindo um host 
   });
 ```
 ######Método GET
 ```javascript
   //Quando carregar página
-  RC().get('/',function(res,status,statusText){
-    console.log(res)
+  RC().get('/auth',function(res,status,statusText){
+    let obj = JSON.parse(res)
+    //Setando uma nova configuração e gravando localmente.
+    // Para não gravar, passe o terceiro parametro como false.
+    RC().setConfig('header',{Authorization: obj.token},true)
   });
   
   //Quando clicar em um elemento. Passando como parametro os elementos de um formulário
