@@ -15,7 +15,7 @@ Cliente JavaScript para API RESTful
 ######Configuração
 ```javascript
   RC().setConfig({
-      host: '/testes/jwt/examples/api',   // definindo um host 
+      host: 'http://domain.com',   // definindo um host 
   });
 ```
 ######Método GET
