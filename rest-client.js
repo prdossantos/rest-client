@@ -1,7 +1,9 @@
 var RC;
 (function(window,document){
 
-	var config = {}
+	var config = {
+		host: ''
+	}
 
 	RC = function(arg1, arg2) {
 		
