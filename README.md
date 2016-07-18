@@ -16,13 +16,6 @@ Cliente JavaScript para API RESTful
 ```javascript
   RC({
       host: '/testes/jwt/examples/api',   // definindo um host 
-      // configurações de autênticação são opcionais, sendo possível seta-las na própria chamada.
-      auth: {
-        fields: {               
-          username: 'input[name=username]',   //definindo um campo de usuário para autênticação
-          password: '#teste'       // definindo um campo de senha para autênticação 
-        }
-      }
   });
 ```
 ######Método GET
@@ -32,8 +25,19 @@ Cliente JavaScript para API RESTful
     console.log(res)
   });
   
-  //Quando clicar em um elemento, passando como parametro os elementos de um formulário
+  //Quando clicar em um elemento. Passando como parametro os elementos de um formulário
   RC('button','click').get('/users','form#get',function(res,status,statusText){
     // codigo
   })
+```
+######Método POST
+```javascript
+  //Passando campos dinamicos, atravéz de tags, ids e classes
+  RC('#submit','click').post('/users',{title:'form#title',description:'form#description'},function(res,status,statusText){
+    console.log(res)
+  });
+  //Passando todos os campos de um formulário
+  RC('#submit','click').post('/users','form#test',function(res,status,statusText){
+    console.log(res)
+  });
 ```
