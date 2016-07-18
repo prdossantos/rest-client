@@ -1,86 +1,43 @@
 var RC;
 (function(window,document){
 
-	var config = {
-		host: 'api.domain.com',
-		auth: {
-			fields:{
-				username: 'username',
-				password: 'password',
-			},			
-			method: 'post',
-			local_storage: false,
-		}
-	}
+	var config = {}
 
 	RC = function(arg1, arg2) {
 		
 		var el;
 
-		if(typeof arg1 == 'object') {
- 			config = mergeUnique(arg1,config)
-		} else if( arg1 ) {
+		if( arg1 ) {
 			el = document.querySelector(arg1);
 		}
-		
-		if( config.auth.local_storage && localStorage.getItem(config.auth.local_storage) ) {
-			config.header = {'Authorization':'Bearer '+localStorage.getItem(config.auth.local_storage)}
+
+		if( localStorage.getItem('rc_config') ) {
+			config = JSON.parse(localStorage.getItem('rc_config'))
 		}
 
 		function session(cleanAll)
 		{
-			if(cleanAll)
-				localStorage.removeItem(config.auth.local_storage)
+			if(cleanAll && typeof cleanAll == 'boolean')
+				localStorage.removeItem('rc_config')
+			else if(cleanAll && typeof cleanAll == 'string')
+				localStorage.removeItem(cleanAll)
 		}
 
-		function auth(path, arg, callback)
+		function _getConfig(key)
 		{
-			arg = arg || config.auth.fields
+			return config[key] || config;
+		}
 
-			if(typeof arg == 'function') {
-				callback = arg
-				arg = config.auth.fields
-			}
-			if( arg1 && arg2 ) {
-				eventListener(el, arg2, function(event){
-					if( event.type == arg2) {
-						var res = xhr({
-							method: config.auth.method,
-							url: config.host + path,
-							data: normalizeXhrData(arg,config.auth.fields),
-							callback: callback,
-							header : config.auth.header
-						})
+		function _setConfig(arg1,arg2,store)
+		{
+			if( typeof arg1 == 'object')
+				config = mergeUnique(arg1,config)
+			else
+				config[arg1] = arg2
 
-						if( config.auth.local_storage ) {
-							
-							res.onload = function (res) {
-								try {
-									var obj = JSON.parse(res.target.responseText)
-									if( obj && obj.data) {
-										localStorage.setItem(config.auth.local_storage,obj.data)
-										config.header = {'Authorization':'Bearer '+obj.data}
-									}
-								} catch (e) {
-									console.log(e)
-								}
-							}
-						}
-					}
-				})
-			} else {
-				var res = xhr({
-					method: config.auth.method,
-					url: config.host,
-					data: normalizeXhrData(arg,config.auth.fields),
-					callback: callback,
-					header : config.auth.header
-				})
 
-				if( config.auth.local_storage ) {
-				 	res.onload = storage
-				}
-			}
+			if(store)
+				localStorage.setItem('rc_config',JSON.stringify(config)) 
 		}
 
 		function _get(path, arg, callback)
@@ -251,8 +208,7 @@ var RC;
 					if( typeof newObj[index] == 'object' ) {
 						mergeUnique(newObj[index], oldObj[index])
 					} else {
-						if(typeof oldObj[index] != 'undefined')
-							oldObj[index] = newObj[index]
+						oldObj[index] = newObj[index]
 					}
 				})
 			}
@@ -392,13 +348,14 @@ var RC;
 		}
 
 		return {
-			auth: auth,
 			get: _get,
 			post: _post,
 			put: _put,
 			patch: _patch,
 			delete: _delete,
-			clearSess: session
+			clearSess: session,
+			getConfig: _getConfig,
+			setConfig: _setConfig
 		}
 	}
 }(window,document));

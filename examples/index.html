@@ -85,41 +85,38 @@
         </div>
         <script type="text/javascript" src="../rest-client.js"></script>
         <script type="text/javascript">
-            RC({
-                host: '/testes/jwt/examples/api',
-                auth: {
-                    local_storage: 'token',
-                    fields: {
-                        username: 'input[name=test]',
-                        password: 'teste'
-                    }
-                }
+            RC().setConfig({
+                host: '/testes/jwt/examples/api/'
             })
 
             //Limpa as sessioes abertas
-            RC().clearSess(true)
+            // RC().clearSess(true)
 
             /**
              * Autenticação
              */
-
+             console.log(RC().getConfig())
             // Com campos padrões e callback
-            // RC('#auth','click').auth('/',function(res){ console.log(res) })
+            // RC('#auth','click').get('/',function(res){ console.log(res) })
 
             // Com parametros e callback
-            // RC('#auth','click').auth('/',{username:'user',password:'pass'},function(res){ console.log(res) })
+            // RC('#auth','click').get('/',{username:'user',password:'pass'},function(res){ console.log(res) })
 
             // Com parametros e valor dinamico( suporta tag, ids e classes de elementos de formulario ) e callback
-            // RC('#auth','click').auth('/',{username:'#data input',password:'pass'},function(res){ console.log(res) })
+            // RC('#auth','click').get('/',{username:'#data input',password:'pass'},function(res){ console.log(res) })
 
-            // Passando formulario, neste caso será buscado pelos campos definidos em config.auth.fields e callback
-            RC('#auth','click').auth('/','form',function(res){ console.log(res) })
+            // Passando formulario, neste caso será buscado pelos campos definidos em config.get.fields e callback
+            RC('#auth','click').get('/','form',function(res){ 
+                var obj = JSON.parse(res)
+                RC().setConfig('header',{'Authorization':'Bearer '+obj.data},true);
+                console.log(RC().getConfig('header')) 
+            })
 
             // Sem ação
-            // RC().auth('/','form')
+            // RC().get('/','form')
             
             // Gravando o retorno em localStorage sem callback
-            // RC('#auth','click').auth('/','form').storage('aq_token')
+            // RC('#auth','click').get('/','form').storage('aq_token')
             
             /**
              * Method GET
@@ -129,7 +126,9 @@
             // RC('#get','click').get('/',function(res){ console.log(res) })
             
             // Com parametros
-            RC('#get','click').get('/','form',function(res){ console.log(res) }) 
+            RC('#get','click').get('/','form',function(res){  
+                console.log(RC().getConfig()) 
+            }) 
 
             /**
              * Method POST
