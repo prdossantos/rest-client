@@ -6,11 +6,6 @@ Cliente JavaScript para API RESTful
 ```sh
   npm install --dev
 ```
-
-## Testes
-```sh
-  gulp
-```
 ## Exemplos
 ######Configuração
 ```javascript
@@ -43,4 +38,8 @@ Cliente JavaScript para API RESTful
   RC('#submit','click').post('/users','form#test',function(res,status,statusText){
     console.log(res)
   });
+```
+## Testes
+```sh
+  gulp
 ```
