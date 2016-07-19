@@ -295,7 +295,8 @@ var RC;
 			var elements = form.querySelectorAll(accepted.join(','))
 
 			if(elements) {
-				elements.forEach(function(el){
+				for(i in elements){
+					let el = elements[i]
 					if( el.value ) {
 						var name = el.name || 'field'+ ++i
 						var value = el.value
@@ -319,7 +320,7 @@ var RC;
 							v.push(name+'='+value)
 						}
 					}
-				});
+				};
 
 				return v.join('&');
 			}
