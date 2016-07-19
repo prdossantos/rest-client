@@ -296,7 +296,7 @@ var RC;
 
 			if(elements) {
 				for(i in elements){
-					let el = elements[i]
+					var el = elements[i];
 					if( el.value ) {
 						var name = el.name || 'field'+ ++i
 						var value = el.value
