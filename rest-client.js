@@ -66,23 +66,23 @@ var RC;
 			if( arg1 && arg2 ) {
 				eventListener(el, arg2, function(event){
 					if( event.type == arg2) {
-						var res = xhr({
+						xhr({
 							method: 'get',
 							url: config.host + path,
 							data: normalizeXhrData(arg),
 							callback: callback,
 							header : config.header
-						})
+						}).then(_doneCallbacks, _failCallbacks)
 					}
 				})
 			} else {
-				var res = xhr({
+				xhr({
 					method: 'get',
 					url: config.host + path,
 					data: normalizeXhrData(arg),
 					callback: callback,
 					header : config.header
-				})
+				}).then(_doneCallbacks, _failCallbacks)
 			}
 		}
 
@@ -96,23 +96,23 @@ var RC;
 			if( arg1 && arg2 ) {
 				eventListener(el, arg2, function(event){
 					if( event.type == arg2) {
-						var res = xhr({
+						xhr({
 							method: 'post',
 							url: config.host + path,
 							data: normalizeXhrData(arg),
 							callback: callback,
 							header : config.header
-						})
+						}).then(_doneCallbacks, _failCallbacks)
 					}
 				})
 			} else {
-				var res = xhr({
+				xhr({
 					method: 'post',
 					url: config.host + path,
 					data: normalizeXhrData(arg),
 					callback: callback,
 					header : config.header
-				})
+				}).then(_doneCallbacks, _failCallbacks)
 			}
 		}
 
@@ -126,23 +126,23 @@ var RC;
 			if( arg1 && arg2 ) {
 				eventListener(el, arg2, function(event){
 					if( event.type == arg2) {
-						var res = xhr({
+						xhr({
 							method: 'put',
 							url: config.host + path,
 							data: normalizeXhrData(arg),
 							callback: callback,
 							header : config.header
-						})
+						}).then(_doneCallbacks, _failCallbacks)
 					}
 				})
 			} else {
-				var res = xhr({
+				xhr({
 					method: 'put',
 					url: config.host + path,
 					data: normalizeXhrData(arg),
 					callback: callback,
 					header : config.header
-				})
+				}).then(_doneCallbacks, _failCallbacks)
 			}
 		}
 
@@ -156,23 +156,23 @@ var RC;
 			if( arg1 && arg2 ) {
 				eventListener(el, arg2, function(event){
 					if( event.type == arg2) {
-						var res = xhr({
+						xhr({
 							method: 'patch',
 							url: config.host + path,
 							data: normalizeXhrData(arg),
 							callback: callback,
 							header : config.header
-						})
+						}).then(_doneCallbacks, _failCallbacks)
 					}
 				})
 			} else {
-				var res = xhr({
+				xhr({
 					method: 'patch',
 					url: config.host + path,
 					data: normalizeXhrData(arg),
 					callback: callback,
 					header : config.header
-				})
+				}).then(_doneCallbacks, _failCallbacks)
 			}
 		}
 
@@ -186,23 +186,23 @@ var RC;
 			if( arg1 && arg2 ) {
 				eventListener(el, arg2, function(event){
 					if( event.type == arg2) {
-						var res = xhr({
+						xhr({
 							method: 'delete',
 							url: config.host + path,
 							data: normalizeXhrData(arg),
 							callback: callback,
 							header : config.header
-						})
+						}).then(_doneCallbacks, _failCallbacks)
 					}
 				})
 			} else {
-				var res = xhr({
+				xhr({
 					method: 'delete',
 					url: config.host + path,
 					data: normalizeXhrData(arg),
 					callback: callback,
 					header : config.header
-				})
+				}).then(_doneCallbacks, _failCallbacks)
 			}
 		}
 
@@ -330,37 +330,59 @@ var RC;
 
 		function xhr(options)
 		{
- 			var opt = options;
-				opt.method = options.method || 'post'
-				opt.url = options.url || ''
-				opt.data = options.data || ''
-				opt.callback = options.callback || false
-				opt.header = options.header || false
+			return new Promise(function(resolve, reject){
+				var opt = options;
+					opt.method = options.method || 'post'
+					opt.url = options.url || ''
+					opt.data = options.data || ''
+					opt.callback = options.callback || false
+					opt.header = options.header || false
 
-			var data = opt.data
+				var data = opt.data
 
-			if( opt.method.toLowerCase() == 'get' )
-				opt.url = opt.url + '?' + data
+				if( opt.method.toLowerCase() == 'get' )
+					opt.url = opt.url + '?' + data
 
-			var xhr = new XMLHttpRequest();
-				xhr.open(opt.method, opt.url, true)
-				if(opt.method.toLowerCase() != 'get')
-					xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-				if(opt.header) {
-					Object.keys(opt.header).forEach( function(index) {
-						xhr.setRequestHeader(index,opt.header[index])
-					});
-				}
+				var xhr = new XMLHttpRequest();
+					xhr.open(opt.method, opt.url, true)
+					if(opt.method.toLowerCase() != 'get')
+						xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+					if(opt.header) {
+						Object.keys(opt.header).forEach( function(index) {
+							xhr.setRequestHeader(index,opt.header[index])
+						});
+					}
 
-				var r = xhr.onload = function(res){
-					obj = res.target
-					if(opt.callback)
-						opt.callback(obj.responseText,obj.status,obj.statusText);
+					xhr.onload = function(res){
+						obj = res.target
+						if( obj.status == 200 ) {
+							obj.options = options
+							resolve(obj)
+						} else {
+							reject(Error('Proccess didn\'t load successfully, error: ('+obj.status+')'+obj.statusText))
+						}
+					}
 
-				}
-				xhr.send(data);
+					xhr.onerror = function() {
+						reject(Error('There was a network error'))
+					}
 
-			return xhr
+					xhr.send(data);
+
+				return xhr
+			})
+		}
+
+		function _doneCallbacks(obj)
+		{
+			if(obj.options.callback)
+ 				obj.options.callback(obj.responseText,obj.status,obj.statusText);
+
+		}
+
+		function _failCallbacks(Error) 
+		{
+			console.log(Error)
 		}
 
 		return {
