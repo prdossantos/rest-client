@@ -267,7 +267,7 @@ var RC;
 					if( fields[index].indexOf('.') > -1 || fields[index].indexOf('#') > -1 || fields[index].indexOf('[') > -1 ) {
 						tag = fields[index]
 					} 
-					
+
 					if( tag ) {
 						var field = document.querySelector(tag)
 						if(field) v.push(index+'='+field.value)
@@ -347,6 +347,8 @@ var RC;
 					xhr.open(opt.method, opt.url, true)
 					if(opt.method.toLowerCase() != 'get')
 						xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+					if(opt.url.indexOf('http://') > -1 || opt.url.indexOf('https://') > -1)
+						xhr.withCredentials = true
 					if(opt.header) {
 						Object.keys(opt.header).forEach( function(index) {
 							xhr.setRequestHeader(index,opt.header[index])
