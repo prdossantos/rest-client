@@ -27,6 +27,11 @@ Cliente JavaScript para API RESTful
   RC('button','click').get('/users','form#get',function(res,status,statusText){
     // codigo
   })
+
+  //Quando clicar em um elemento. Passando como parametro um elemento específico
+  RC('button','click').get('/users',{username:'form#get input[name="campo dinâmico"]',codigo:'meu codigo estático'},function(res,status,statusText){
+    // codigo
+  })
 ```
 ######Método POST
 ```javascript

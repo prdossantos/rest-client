@@ -256,32 +256,31 @@ var RC;
 			return str;
 		}
 
-		function normalizeXhrData(data,fields)
+		function normalizeXhrData(fields)
 		{
-			var el = document.querySelector(data), v = []
+			var v = [], data = ''
 			// console.log(el)
-			if( typeof data == 'object' ) {
-				data = objToString(data);
-			} else if(typeof data == 'string' && data) {
-				if(el && fields) {
-					Object.keys(fields).forEach(function(index){
-						var tag = fields[index]
-						if( fields[index].indexOf('.') > -1 || fields[index].indexOf('#') > -1 || fields[index].indexOf('[') > -1 ) {
-							tag = tag
-						} else {
-							tag = 'input[name='+fields[index]+']'
-						}
-						var field = el.querySelector(tag)
-						if(field)
-							v.push(index+'='+field.value)
-					})
+			if( typeof fields == 'object' ) {
 
-					data = v.join('&')
-				} else if( el ) {
-					var form = el;
-					data = formSerialize(form)
-				}	
-			}
+				Object.keys(fields).forEach(function(index){
+					var tag = false
+					if( fields[index].indexOf('.') > -1 || fields[index].indexOf('#') > -1 || fields[index].indexOf('[') > -1 ) {
+						tag = fields[index]
+					} 
+					
+					if( tag ) {
+						var field = document.querySelector(tag)
+						if(field) v.push(index+'='+field.value)
+					} else {
+						v.push(index+'='+fields[index])
+					}
+				})
+
+				data = v.join('&')
+			} else if( typeof fields == 'string' && fields ) {
+				var form = el;
+				data = formSerialize(form)
+			}	
 
 			return data
 		}

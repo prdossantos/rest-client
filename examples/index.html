@@ -129,7 +129,7 @@
             // RC('#get','click').get('/',function(res){ console.log(res) })
             
             // Com parametros
-            RC('#get','click').get('/','form',function(res){  
+            RC('#get','click').get('/',{username:'form input[name=teste]',password:'password'},function(res){  
                 console.log(RC().getConfig()) 
             }) 
 
