@@ -386,7 +386,8 @@ var RC;
 
 		function _failCallbacks(Error) 
 		{
-			console.log(Error)
+			if(obj.options.callback)
+ 				obj.options.callback(obj.responseText,obj.status,obj.statusText);
 		}
 
 		return {
