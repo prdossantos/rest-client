@@ -358,16 +358,17 @@ var RC;
 
 					xhr.onload = function(res){
 						obj = res.target
+						obj.options = options
 						if( obj.status == 200 ) {
-							obj.options = options
 							resolve(obj)
 						} else {
-							reject(Error('Proccess didn\'t load successfully, error: ('+obj.status+')'+obj.statusText))
+							reject(obj)
 						}
 					}
 
-					xhr.onerror = function() {
-						reject(Error('There was a network error'))
+					xhr.onerror = function(res) {
+						res.options = options
+						reject(res)
 					}
 
 					xhr.send(data);
