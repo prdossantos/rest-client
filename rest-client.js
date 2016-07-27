@@ -390,6 +390,10 @@ var RC;
  				obj.options.callback(obj.responseText,obj.status,obj.statusText);
 		}
 
+		function _val(value) {
+			el.value = value;
+		}
+
 		return {
 			get: _get,
 			post: _post,
@@ -398,7 +402,8 @@ var RC;
 			delete: _delete,
 			clearSess: session,
 			getConfig: _getConfig,
-			setConfig: _setConfig
+			setConfig: _setConfig,
+			val: _val
 		}
 	}
 }(window,document));
