@@ -347,10 +347,11 @@ var RC;
 					xhr.open(opt.method, opt.url, true)
 					if(opt.method.toLowerCase() != 'get')
 						xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-					if(opt.url.indexOf('http://') > -1 || opt.url.indexOf('https://') > -1)
-						xhr.withCredentials = true
 					if(opt.header) {
 						Object.keys(opt.header).forEach( function(index) {
+							if(index == 'withCredentials') {
+								xhr.withCredentials = true
+							}
 							xhr.setRequestHeader(index,opt.header[index])
 						});
 					}
