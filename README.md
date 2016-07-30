@@ -2,10 +2,8 @@
 Cliente JavaScript para API RESTful
 
 ## Instalação
-> Testes
-```sh
-  npm install --dev
-```
+Clone ou baixe o repositório.
+
 ## Exemplos
 ###### Configuração
 ```javascript
@@ -43,6 +41,7 @@ Cliente JavaScript para API RESTful
   });
 ```
 ## Testes
-```sh
+```shell
+  npm install --dev
   gulp
 ```
