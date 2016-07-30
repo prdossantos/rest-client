@@ -7,13 +7,13 @@ Cliente JavaScript para API RESTful
   npm install --dev
 ```
 ## Exemplos
-######Configuração
+###### Configuração
 ```javascript
   RC().setConfig({
       host: 'http://domain.com',   // definindo um host 
   });
 ```
-######Método GET
+###### Método GET
 ```javascript
   //Quando carregar página
   RC().get('/auth',function(res,status,statusText){
@@ -22,18 +22,16 @@ Cliente JavaScript para API RESTful
     // Para não gravar, passe o terceiro parametro como false.
     RC().setConfig('header',{Authorization: obj.token},true)
   });
-  
   //Quando clicar em um elemento. Passando como parametro os elementos de um formulário
   RC('button','click').get('/users','form#get',function(res,status,statusText){
     // codigo
   })
-
   //Quando clicar em um elemento. Passando como parametro um elemento específico
   RC('button','click').get('/users',{username:'form#get input[name="campo dinâmico"]',codigo:'meu codigo estático'},function(res,status,statusText){
     // codigo
   })
 ```
-######Método POST
+###### Método POST
 ```javascript
   //Passando campos dinamicos, atravéz de tags, ids e classes
   RC('#submit','click').post('/users',{title:'form#title',description:'form#description'},function(res,status,statusText){
